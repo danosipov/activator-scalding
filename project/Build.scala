@@ -74,7 +74,7 @@ object Resolvers {
 
 object Dependency {
   object Version {
-    val Scalding  = "0.9.0rc4"
+    val Scalding  = "0.10.0"
     val Algebird  = "0.2.0"
     val Hadoop    = "1.1.2"  // Fairly old, but reliable version. Substitute your "favorite"
     val ScalaTest = "2.0"
