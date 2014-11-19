@@ -1,168 +1,8 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<style>
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote {
-    margin: 0;
-    padding: 0;
-}
-body {
-    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
-    font-size: 13px;
-    line-height: 18px;
-    color: #737373;
-    background-color: white;
-    margin: 10px 13px 10px 13px;
-}
-table {
-	margin: 10px 0 15px 0;
-	border-collapse: collapse;
-}
-td,th {	
-	border: 1px solid #ddd;
-	padding: 3px 10px;
-}
-th {
-	padding: 5px 10px;	
-}
-
-a {
-    color: #0069d6;
-}
-a:hover {
-    color: #0050a3;
-    text-decoration: none;
-}
-a img {
-    border: none;
-}
-p {
-    margin-bottom: 9px;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: #404040;
-    line-height: 36px;
-}
-h1 {
-    margin-bottom: 18px;
-    font-size: 30px;
-}
-h2 {
-    font-size: 24px;
-}
-h3 {
-    font-size: 18px;
-}
-h4 {
-    font-size: 16px;
-}
-h5 {
-    font-size: 14px;
-}
-h6 {
-    font-size: 13px;
-}
-hr {
-    margin: 0 0 19px;
-    border: 0;
-    border-bottom: 1px solid #ccc;
-}
-blockquote {
-    padding: 13px 13px 21px 15px;
-    margin-bottom: 18px;
-    font-family:georgia,serif;
-    font-style: italic;
-}
-blockquote:before {
-    content:"\201C";
-    font-size:40px;
-    margin-left:-10px;
-    font-family:georgia,serif;
-    color:#eee;
-}
-blockquote p {
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 18px;
-    margin-bottom: 0;
-    font-style: italic;
-}
-code, pre {
-    font-family: Monaco, Andale Mono, Courier New, monospace;
-}
-code {
-    background-color: #fee9cc;
-    color: rgba(0, 0, 0, 0.75);
-    padding: 1px 3px;
-    font-size: 12px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-}
-pre {
-    display: block;
-    padding: 14px;
-    margin: 0 0 18px;
-    line-height: 16px;
-    font-size: 11px;
-    border: 1px solid #d9d9d9;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-}
-pre code {
-    background-color: #fff;
-    color:#737373;
-    font-size: 11px;
-    padding: 0;
-}
-sup {
-    font-size: 0.83em;
-    vertical-align: super;
-    line-height: 0;
-}
-* {
-	-webkit-print-color-adjust: exact;
-}
-@media screen and (min-width: 914px) {
-    body {
-        width: 854px;
-        margin:10px auto;
-    }
-}
-@media print {
-	body,code,pre code,h1,h2,h3,h4,h5,h6 {
-		color: black;
-	}
-	table, pre {
-		page-break-inside: avoid;
-	}
-}
-</style>
-<title>Activator Scalding Template</title>
-<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</head>
-<body>
-<h1>Activator Scalding Template</h1>
-
 <div>
 
-<h2>Explore Scalding</h2>
+<h2>An Introduction to Scalding</h2>
 
-<p>This template demonstrates how to build and run <a href="https://github.com/twitter/scalding">Scalding</a>-based <em>Big Data</em> applications for <a href="http://hadoop.apache.org">Hadoop</a>. You can also run them "locally" on your personal machine, which we will do here, for convenient development and testing. Actually, these "applications" are more like "scripts" than traditional, multi-file applications.</p>
+<p>This workshop demonstrates how to build and run <a href="https://github.com/twitter/scalding">Scalding</a>-based <em>Big Data</em> applications for <a href="http://hadoop.apache.org">Hadoop</a>. You can also run them "locally" on your personal machine, which we will do here, for convenient development and testing. Actually, these "applications" are more like "scripts" than traditional, multi-file applications.</p>
 
 <p><a href="https://github.com/twitter/scalding">Scalding</a> is a Scala API developed at Twitter for distributed data programming that sits on top of the <a href="http://www.cascading.org/">Cascading</a> Java API, which in turn sits on top of Hadoop's Java API. However, through Cascading, Scalding also offers a <em>local</em> mode that makes it easy to run jobs without Hadoop. This greatly simplifies and accelerates learning and testing of applications. It's even "good enough" for small data sets that fit easily on a single machine.</p>
 
@@ -208,17 +48,17 @@ class NGrams(args : Args) extends Job(args) {
     .replaceAll("""\s+""", """\\p{Space}+""").r
   val numberOfNGrams = args.getOrElse("count", "20").toInt
 
-  val countReverseComparator = 
+  val countReverseComparator =
     (tuple1:(String,Int), tuple2:(String,Int)) =&gt; tuple1._2 &gt; tuple2._2
 
   val lines = TextLine(args("input"))
     .read
-    .flatMap('line -&gt; 'ngram) { 
-      text: String =&gt; ngramsRE.findAllIn(text.trim.toLowerCase).toIterable 
+    .flatMap('line -&gt; 'ngram) {
+      text: String =&gt; ngramsRE.findAllIn(text.trim.toLowerCase).toIterable
     }
     .discard('offset, 'line)
     .groupBy('ngram) { _.size('count) }
-    .groupAll { 
+    .groupAll {
       _.sortWithTake[(String,Int)](
         ('ngram,'count) -&gt; 'sorted_ngrams, numberOfNGrams)(countReverseComparator)
     }
@@ -249,7 +89,7 @@ class NGrams(args : Args) extends Job(args) {
 <p>Before we create our <em>dataflow</em>, a series of <em>pipes</em> that provide data processing, we define a values that we'll need. The user specifies the NGram pattern they want, such as the "% love % %" used in our <em>run</em> example. The <code>ngramsRE</code> takes that NGram specification and turns it into a regular expression that we need. The "%" are converted into patterns to find any word and any runs of whitespace are generalized for all whitespace. Finally, we get the command line argument for the number of most frequently occurring NGrams to find, which defaults to 20 if not specified.</p>
 
 <pre><code>  ...
-  val countReverseComparator = 
+  val countReverseComparator =
     (tuple1:(String,Int), tuple2:(String,Int)) =&gt; tuple1._2 &gt; tuple2._2
   ...
 </code></pre>
@@ -259,8 +99,8 @@ class NGrams(args : Args) extends Job(args) {
 <pre><code>  ...
   val lines = TextLine(args("input"))
     .read
-    .flatMap('line -&gt; 'ngram) { 
-      text: String =&gt; ngramsRE.findAllIn(text.trim.toLowerCase).toIterable 
+    .flatMap('line -&gt; 'ngram) {
+      text: String =&gt; ngramsRE.findAllIn(text.trim.toLowerCase).toIterable
     }
     .discard('offset, 'line)
     ...
@@ -290,7 +130,7 @@ class NGrams(args : Args) extends Job(args) {
 
 <pre><code>    ...
     .groupBy('ngram) { _.size('count) }
-    .groupAll { 
+    .groupAll {
       _.sortWithTake[(String,Int)](
         ('ngram,'count) -&gt; 'sorted_ngrams, numberOfNGrams)(countReverseComparator)
     }
@@ -337,7 +177,7 @@ class WordCount(args : Args) extends Job(args) {
   TextLine(args("input"))
     .read
     .flatMap('line -&gt; 'word) {
-      line : String =&gt; line.trim.toLowerCase.split(tokenizerRegex) 
+      line : String =&gt; line.trim.toLowerCase.split(tokenizerRegex)
     }
     .groupBy('word){ group =&gt; group.size('count) }
     .write(Tsv(args("output")))
@@ -392,11 +232,11 @@ class FilterUniqueCountLimit(args : Args) extends Job(args) {
   new RichPipe(bible)
       .project('book)
       .unique('book)
-      .write(Tsv(s"$outputPrefix-books.txt"))  
+      .write(Tsv(s"$outputPrefix-books.txt"))
 
   new RichPipe(bible)
       .groupAll { _.size('countstar).reducers(2) }
-      .write(Tsv(s"$outputPrefix-count-star.txt"))  
+      .write(Tsv(s"$outputPrefix-count-star.txt"))
 
   new RichPipe(bible)
       .limit(args.getOrElse("n", "10").toInt)
@@ -430,7 +270,7 @@ class FilterUniqueCountLimit(args : Args) extends Job(args) {
 
 <p>In a conventional implementation of Tf-Idf, you might load a precomputed document to word matrix:</p>
 
-<pre><code>a[i,j] = frequency of the word j in the document with index i 
+<pre><code>a[i,j] = frequency of the word j in the document with index i
 </code></pre>
 
 <p>Then, you would compute the Tf-Idf score of each word with respect to each document.</p>
@@ -444,17 +284,17 @@ import com.twitter.scalding.mathematics.Matrix
 
 class TfIdf(args : Args) extends Job(args) {
 
-  val n = args.getOrElse("n", "100").toInt 
+  val n = args.getOrElse("n", "100").toInt
   val kjvSchema = ('book, 'chapter, 'verse, 'text)
   val tokenizerRegex = """\W+"""
 
   val books = Vector(
-    "Act", "Amo", "Ch1", "Ch2", "Co1", "Co2", "Col", "Dan", "Deu", 
-    "Ecc", "Eph", "Est", "Exo", "Eze", "Ezr", "Gal", "Gen", "Hab", 
-    "Hag", "Heb", "Hos", "Isa", "Jam", "Jde", "Jdg", "Jer", "Jo1", 
-    "Jo2", "Jo3", "Job", "Joe", "Joh", "Jon", "Jos", "Kg1", "Kg2", 
-    "Lam", "Lev", "Luk", "Mal", "Mar", "Mat", "Mic", "Nah", "Neh", 
-    "Num", "Oba", "Pe1", "Pe2", "Phi", "Plm", "Pro", "Psa", "Rev", 
+    "Act", "Amo", "Ch1", "Ch2", "Co1", "Co2", "Col", "Dan", "Deu",
+    "Ecc", "Eph", "Est", "Exo", "Eze", "Ezr", "Gal", "Gen", "Hab",
+    "Hag", "Heb", "Hos", "Isa", "Jam", "Jde", "Jdg", "Jer", "Jo1",
+    "Jo2", "Jo3", "Job", "Joe", "Joh", "Jon", "Jos", "Kg1", "Kg2",
+    "Lam", "Lev", "Luk", "Mal", "Mar", "Mat", "Mic", "Nah", "Neh",
+    "Num", "Oba", "Pe1", "Pe2", "Phi", "Plm", "Pro", "Psa", "Rev",
     "Rom", "Rut", "Sa1", "Sa2", "Sol", "Th1", "Th2", "Ti1", "Ti2",
     "Tit", "Zac", "Zep")
 
@@ -463,7 +303,7 @@ class TfIdf(args : Args) extends Job(args) {
   val byBookWordCount = Csv(args("input"), separator = "|", fields = kjvSchema)
     .read
     .flatMap('text -&gt; 'word) {
-      line : String =&gt; line.trim.toLowerCase.split(tokenizerRegex) 
+      line : String =&gt; line.trim.toLowerCase.split(tokenizerRegex)
     }
     .project('book, 'word)
     .map('book -&gt; 'bookId)((book: String) =&gt; booksToIndex(book))
@@ -478,10 +318,10 @@ class TfIdf(args : Args) extends Job(args) {
 
   val docFreq = docWordMatrix.sumRowVectors
 
-  val invDocFreqVct = 
+  val invDocFreqVct =
     docFreq.toMatrix(1).rowL1Normalize.mapValues( x =&gt; log2(1/x) )
 
-  val invDocFreqMat = 
+  val invDocFreqMat =
     docWordMatrix.zip(invDocFreqVct.getRow(1)).mapValues(_._2)
 
   val out1 = docWordMatrix.hProd(invDocFreqMat).topRowElems(n)
@@ -656,16 +496,16 @@ class TfIdf(args : Args) extends Job(args) {
 
 <p>One the jar is built and assuming you have the <code>hadoop</code> command installed on your system (or the server to which you copy the jar file...), the following command syntax will run one of the scripts</p>
 
-<pre><code>hadoop jar target/scala-2.10/activator-scalding-X.Y.Z.jar SCRIPT_NAME \ 
-  [--hdfs | --local ] [--host JOBTRACKER_HOST] \ 
-  --input INPUT_PATH --output OUTPUT_PATH \ 
-  [other-args] 
+<pre><code>hadoop jar target/scala-2.10/activator-scalding-X.Y.Z.jar SCRIPT_NAME \
+  [--hdfs | --local ] [--host JOBTRACKER_HOST] \
+  --input INPUT_PATH --output OUTPUT_PATH \
+  [other-args]
 </code></pre>
 
 <p>Here is an example for <code>NGrams</code>, using HDFS, not the local file system, and assuming the JobTracker host is determined from the local configuration files, so we don't have to specify it:</p>
 
-<pre><code>hadoop jar target/scala-2.10/activator-scalding-X.Y.Z.jar NGrams \ 
-  --hdfs  --input /data/docs --output output/wordcount \ 
+<pre><code>hadoop jar target/scala-2.10/activator-scalding-X.Y.Z.jar NGrams \
+  --hdfs  --input /data/docs --output output/wordcount \
   --count 100 --ngrams "% loves? %"
 </code></pre>
 
@@ -689,5 +529,3 @@ class TfIdf(args : Args) extends Job(args) {
 <li>See <a href="http://typesafe.com/activator">Typesafe Activator</a> to find other Activator templates.</li>
 </ul>
 </div>
-</body>
-</html>

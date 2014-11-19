@@ -4,8 +4,8 @@ import sbt.Keys._
 object BuildSettings {
 
   val Name = "activator-scalding"
-  val Version = "1.0.0"
-  val ScalaVersion = "2.10.3"
+  val Version = "1.1.0"
+  val ScalaVersion = "2.10.4"
 
   import Scalding._
 
@@ -27,7 +27,7 @@ object BuildSettings {
 
     // Slightly cleaner jar name
     jarName in assembly := s"${name.value}-${version.value}.jar"  ,
-    
+
     // Drop these jars, most of which are dependencies of dependencies and already exist
     // in Hadoop deployments or aren't needed for local mode execution. Some are older
     // versions of jars that collide with newer versions in the dependency graph!!
@@ -44,10 +44,10 @@ object BuildSettings {
         "stax-api-1.0.1.jar",
         "asm-3.1.jar",
         "scalatest-2.0.jar"
-      ) 
+      )
       cp filter { jar => excludes(jar.data.getName) }
     },
-    
+
     mergeStrategy in assembly <<= (mergeStrategy in assembly) {
       (old) => {
         case "project.clj" => MergeStrategy.discard // Leiningen build files
@@ -67,7 +67,7 @@ object Resolvers {
   val conjars  = "Concurrent Maven Repo" at "http://conjars.org/repo"
   val clojars  = "Clojars Repo" at "http://clojars.org/repo"
   val twitterMaven = "Twitter Maven" at "http://maven.twttr.com"
-  
+
   val allResolvers = Seq(typesafe, sonatype, mvnrepository, conjars, clojars, twitterMaven)
 
 }
@@ -82,9 +82,9 @@ object Dependency {
 
   // ---- Application dependencies ----
 
-  // Include the Scala compiler itself for reification and evaluation of expressions. 
+  // Include the Scala compiler itself for reification and evaluation of expressions.
   val scalaCompiler  = "org.scala-lang" %  "scala-compiler" % BuildSettings.ScalaVersion
-  
+
   val scalding_args  = "com.twitter"    %% "scalding-args"  % Version.Scalding
   val scalding_core  = "com.twitter"    %% "scalding-core"  % Version.Scalding
   val scalding_date  = "com.twitter"    %% "scalding-date"  % Version.Scalding
@@ -93,14 +93,14 @@ object Dependency {
 
   val hadoop_core    = "org.apache.hadoop" % "hadoop-core"  % Version.Hadoop
 
-  val scalaTest      = "org.scalatest"     % "scalatest_2.10" % Version.ScalaTest %  "test" 
+  val scalaTest      = "org.scalatest"     % "scalatest_2.10" % Version.ScalaTest %  "test"
 }
 
 object Dependencies {
   import Dependency._
 
   val activatorscalding = Seq(
-    scalaCompiler, scalding_args, scalding_core, scalding_date, 
+    scalaCompiler, scalding_args, scalding_core, scalding_date,
     algebird_core, algebird_util, hadoop_core, scalaTest)
 }
 
@@ -113,7 +113,7 @@ object ActivatorScaldingBuild extends Build {
     id = "Activator-Scalding",
     base = file("."),
     settings = buildSettings ++ Seq(
-      // runScriptSetting, 
+      // runScriptSetting,
       resolvers := allResolvers,
       libraryDependencies ++= Dependencies.activatorscalding,
       mainClass := Some("RunAll")))
